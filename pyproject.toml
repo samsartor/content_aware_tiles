@@ -1,0 +1,27 @@
+[project]
+name = "content_aware_tiles"
+version = "0.1"
+dependencies = [
+  "numpy",
+  "pytorch_fid",
+  "textile-metric",
+  "einops",
+  "torch",
+  "diffusers",
+  "transformers",
+  "accelerate",
+]
+
+[project.optional-dependencies]
+cli = [
+  "scikit-image",
+  "tqdm",
+  "diffusers",
+  "pyquery",
+  "typed-argument-parser",
+]
+jupyter = [
+  "jupyterlab",
+  "jupytext",
+  "ipython",
+]

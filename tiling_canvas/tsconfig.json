@@ -1,0 +1,15 @@
+{
+  "include": ["./tiling_canvas.ts"],
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "checkJs": true,
+    "allowJs": true,
+    "jsx": "preserve",
+    "lib": ["dom", "esnext"],
+    "removeComments": false,
+    "types": ["vite/client"]
+  }
+}
