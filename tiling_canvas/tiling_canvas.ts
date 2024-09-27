@@ -282,7 +282,8 @@ class TilingCanvas extends HTMLElement {
     const fragmentShaderSource = `#version 300 es
 
       precision highp float;
-      
+      precision highp int;
+
       in vec2 v_uv;
       out vec4 out_color;
       
