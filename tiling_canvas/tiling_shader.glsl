@@ -1,3 +1,7 @@
+vec4 blend(vec4 b, vec4 a) {
+  return vec4(a.rgb * a.a + b.rgb * b.a * (1.0f - a.a), a.a + b.a * (1.0f - a.a));
+}
+
 uint lowbias32(uint x) {
   x ^= x >> 17;
   x *= 0xed5ad4bbU;
@@ -37,19 +41,55 @@ TileColors crossTileColors(vec2 i, uint colors) {
   return TileColors(l, t, r, b);
 }
 
-vec4 tileWireframe(TileColors c, vec2 f, float alpha) {
+struct Details {
+  ivec2 selfTiles;
+  int selfOffset;
+  float wireframeAlpha;
+  float wireframeThickness;
+  bool flipY;
+};
+
+vec4 tileWireframe(TileColors c, vec2 f, int mode, Details details) {
   vec3 colors[6] = vec3[](vec3(1.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f), vec3(0.0f, 0.0f, 1.0f), vec3(0.0f, 1.0f, 1.0f), vec3(1.0f, 0.0f, 1.0f), vec3(1.0f, 1.0f, 0.0f));
-  if(f.x <= f.y && f.x < 1.0f - f.y && f.x < 0.05f) {
-      return vec4(colors[c.l], alpha);
-  }
-  if(f.x >= f.y && f.x > 1.0f - f.y && f.x > 0.95f) {
-      return vec4(colors[c.r], alpha);
-  }
-  if(f.x > f.y && f.x <= 1.0f - f.y && f.y < 0.05f) {
-      return vec4(colors[c.t], alpha);
-  }
-  if(f.x < f.y && f.x >= 1.0f - f.y && f.y > 0.95f) {
-      return vec4(colors[c.b], alpha);
+  float thick = details.wireframeThickness;
+  float thin = 1.0 - thick;
+  if (mode == 0 || mode == 1) {
+    float r = max(abs(f.x), abs(f.y));
+    if(r > thin && r < 1.0 + thick) {
+      return vec4(1.0f, 1.0f, 1.0f, details.wireframeAlpha);
+    }
+  } else if (mode == 2) {
+    float r = max(abs(f.x), abs(f.y));
+    if(f.x <= f.y && f.x < -f.y && r > thin && r < 1.0 + thick) {
+        return vec4(colors[c.l], details.wireframeAlpha);
+    }
+    if(f.x >= f.y && f.x > -f.y && r > thin && r < 1.0 + thick) {
+        return vec4(colors[c.r], details.wireframeAlpha);
+    }
+    if(f.x > f.y && f.x <= -f.y && r > thin && r < 1.0 + thick) {
+        return vec4(colors[c.t], details.wireframeAlpha);
+    }
+    if(f.x < f.y && f.x >= -f.y && r > thin && r < 1.0 + thick) {
+        return vec4(colors[c.b], details.wireframeAlpha);
+    }
+  } else if (mode == 3) {
+    float tdist = length(f - vec2( 0.0f, -1.0f));
+    float bdist = length(f - vec2( 0.0f,  1.0f));
+    float ldist = length(f - vec2(-1.0f, 0.0f));
+    float rdist = length(f - vec2( 1.0f,  0.0f));
+
+    if (tdist < thick && tdist < bdist && tdist < ldist && tdist < rdist) {
+      return vec4(colors[c.t], details.wireframeAlpha);
+    }
+    if (ldist < thick && ldist < bdist && ldist < tdist && ldist < rdist) {
+      return vec4(colors[c.l], details.wireframeAlpha);
+    }
+    if (bdist < thick && bdist < ldist && bdist < tdist && bdist < rdist) {
+      return vec4(colors[c.b], details.wireframeAlpha);
+    }
+    if (rdist < thick && rdist < ldist && rdist < tdist && rdist < bdist) {
+      return vec4(colors[c.r], details.wireframeAlpha);
+    }
   }
   return vec4(0.0f, 0.0f, 0.0f, 0.0f);
 }
@@ -61,47 +101,60 @@ int tileIndex(TileColors neighbors, int offset) {
   return int(INVERSE_PACKING[tile]);
 }
 
-vec4 textureTiling(sampler2D image, vec2 uv, int mode, ivec2 self_tiles, float wireframe, bool flip_y) {
+vec4 textureTiling(sampler2D image, vec2 uv, int mode, Details details) {
   vec2 f = fract(uv);
   vec2 i = uv - f;
+  f = f * 2.0f - 1.0f;
 
   TileColors neighbors;
   vec2 tile_uv;
   vec2 par_uv = uv;
 
-  if(mode == 0) {
-      // Single Tile
-      neighbors = TileColors(0, 0, 0, 0);
-      tile_uv = f;
-  } else if(mode == 1) {
-      // Stochastic Self-tiling Tiles
-      neighbors = TileColors(0, 0, 0, 0);
-      int index = tileEdgeRandom(int(i.x), int(i.y), 1U, uint(self_tiles.x * self_tiles.y));
-      tile_uv = vec2(f.x + float(index % self_tiles.x), f.y + float(index / self_tiles.x)) / float(self_tiles);
-      par_uv /= float(self_tiles);
+  vec2 selfTilesF = vec2(float(details.selfTiles.x), float(details.selfTiles.y));
+
+  if (mode == 0 || mode == 1) {
+    // Stochastic Self-tiling Tiles
+    neighbors = TileColors(0, 0, 0, 0);
+    int index;
+    if (mode == 1) {
+      index = tileEdgeRandom(int(i.x), int(i.y), 1U, uint(details.selfTiles.x * details.selfTiles.y));
+    } else {
+      index = 0;
+    }
+    index += details.selfOffset;
+    tile_uv = f * 0.5f + 0.5f;
+    tile_uv += vec2(float(index % details.selfTiles.x), float(index / details.selfTiles.x));
+    tile_uv /= selfTilesF;
+    par_uv /= selfTilesF;
   } else {
-      // Wang Tiles (or Interior Tiles)
-      neighbors = interiorTileColors(i, 3U);
-      int index = tileIndex(neighbors, 0);
-      tile_uv = vec2(f.x + float(index % 9), f.y + float(index / 9)) / 9.0f;
-      par_uv /= 9.0f;
+    // Wang Tiles (or Interior Tiles)
+    neighbors = interiorTileColors(i, 3U);
+    int index = tileIndex(neighbors, 0);
 
-      vec2 cross_uv = uv + 0.5;
-      vec2 cross_f = fract(cross_uv);
-      if(mode == 3 && abs(cross_f.x - 0.5) + abs(cross_f.y - 0.5) < 0.5) {
-          // Cross Tiles
-          vec2 cross_i = cross_uv - cross_f;
-          TileColors cross_neighbors = crossTileColors(cross_i, 3U);
-          int cross_index = tileIndex(cross_neighbors, 81);
-          tile_uv = vec2(cross_f.x + float(cross_index % 9) - 0.5, cross_f.y + float(cross_index / 9) - 0.5) / 9.0f;
-      }
+    tile_uv = f * 0.5f + 0.5f;
+
+    vec2 cross_uv = uv + 0.5;
+    vec2 cross_f = fract(cross_uv);
+    vec2 cross_i = cross_uv - cross_f;
+    cross_f = cross_f * 2.0 - 1.0;
+    if(mode == 3 && abs(cross_f.x) + abs(cross_f.y) < abs(f.x) + abs(f.y)) {
+      // Cross Tiles
+      f = cross_f;
+      tile_uv = f * 0.5f;
+      neighbors = crossTileColors(cross_i, 3U);
+      index = tileIndex(neighbors, 81);
+    }
+
+    tile_uv += vec2(float(index % 9), float(index / 9));
+    tile_uv /= 9.0f;
+    par_uv /= 9.0f;
   }
 
-  if (flip_y) {
-      tile_uv.y = 1.0 - tile_uv.y;
+  if (details.flipY) {
+    tile_uv.y = 1.0 - tile_uv.y;
   }
 
-  vec4 wireframe_color = tileWireframe(neighbors, f, wireframe);
+  vec4 wireframe_color = tileWireframe(neighbors, f, mode, details);
   vec4 texture_color = textureGrad(image, tile_uv, dFdx(par_uv), dFdy(par_uv));
-  return mix(texture_color, wireframe_color, wireframe_color.w);
+  return blend(texture_color, wireframe_color);
 }

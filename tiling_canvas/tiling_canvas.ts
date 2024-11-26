@@ -62,7 +62,7 @@ class TilingCanvas extends HTMLElement {
         width: 64px;
       }
 
-      span {
+      #hint {
         display: none;
         position: absolute;
         color: black;
@@ -74,15 +74,21 @@ class TilingCanvas extends HTMLElement {
         border: solid black 2px;
       }
 
-      svg:hover + span {
+      svg:hover + #hint {
           display: block;
       }
       </style>
       ${drag_arrow}
-      <span>${hint}</span>
+      <span id="hint">
+        ${hint}
+      </span>
     `;
     this.shadowRoot!.appendChild(this.canvas);
     this.gl = this.canvas.getContext('webgl2')!;
+
+    this.shadowRoot!.getElementById('dragarrow').addEventListener('click', () => {
+      this.setAttribute('wireframe', '' + (this.wireframe > 0.0 ? 0.0 : 0.15));
+    })
   }
 
   connectedCallback() {
@@ -286,16 +292,16 @@ class TilingCanvas extends HTMLElement {
 
       in vec2 v_uv;
       out vec4 out_color;
-      
+
       uniform sampler2D u_image;
       uniform int u_mode;
       uniform ivec2 u_self_tiles;
       uniform float u_wireframe;
-      
+
       ${tiling_shader}
-      
+
       void main() {
-          out_color = textureTiling(u_image, v_uv, u_mode, u_self_tiles, u_wireframe, false);
+          out_color = textureTiling(u_image, v_uv, u_mode, Details(u_self_tiles, 0, u_wireframe > 0.0 ? 1.0 : 0.0, u_wireframe, false));
       }
     `;
     const fragmentShader = this.createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);

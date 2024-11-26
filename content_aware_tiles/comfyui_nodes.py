@@ -193,7 +193,7 @@ class RejectCandidateTiles:
                 "tiles": ("IMAGE",),
                 "tileset": ("TILESET", {"forceInput": True}),
                 "source": ("IMAGE",),
-                "metric": (["sifid"],),
+                "metric": (["sifid", "textile", "random"],),
                 "keep": ("INT", {"default": 1}),
             },
         }
@@ -206,8 +206,11 @@ class RejectCandidateTiles:
         if tileset.candidates == keep:
             return [tiles, tileset]
 
-        tiles = rearrange(tiles, 't h w k -> t k h w').cuda()
-        source = rearrange(source, 'b h w k -> b k h w').cuda()
+        tiles = rearrange(tiles, 't h w k -> t k h w')
+        source = rearrange(source, 'b h w k -> b k h w')
+        if metric != 'random':
+            tiles = tiles.cuda()
+            source = source.cuda()
 
         selected_tiles = select_candidates(tiles, source, tileset.candidates, keep, metric)
 
@@ -247,7 +250,7 @@ class TileUnpacking:
         return {
             "required": {
                 "packing": ("IMAGE",),
-                "kind": (["wang", "dual"],),
+                "kind": (["wang", "dual", "self"],),
                 "resolution": ("INT", {"default": 256}),
                 "colors": ("INT", {"default": 3}),
             },
@@ -266,6 +269,8 @@ class TileUnpacking:
         )
         packing = packing.permute(0, 3, 1, 2)
         tiles = tilize_tiles(packing, tileset)
+        if kind == 'self':
+            tileset = replace(tileset, colors=1, candidates=tiles.shape[0])
         tiles = tiles.permute(0, 2, 3, 1)
         return [tiles, tileset]
 

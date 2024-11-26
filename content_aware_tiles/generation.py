@@ -356,7 +356,7 @@ def select_candidates(tiles: Tensor, source: Tensor, candidates: int, keep: int,
         source (torch.Tensor): The source image tensor used for comparison in some metrics.
         candidates (int): The number of candidate tiles per position.
         keep (int): The number of best tiles to keep per position.
-        metric (str): The metric to use for evaluating tiles. Options are 'sifid' or 'textile'.
+        metric (str): The metric to use for evaluating tiles. Options are 'sifid', 'textile', or 'random'.
 
     Returns:
         tiles (torch.Tensor): A tensor of selected tiles with shape (keep * tiles, channels, height, width).
@@ -377,7 +377,9 @@ def select_candidates(tiles: Tensor, source: Tensor, candidates: int, keep: int,
 
     tiles = rearrange(tiles, '(c t) k h w -> t c k h w', c=candidates)
 
-    if metric == 'sifid':
+    if metric == 'random':
+      score = lambda x: torch.rand((x.shape[0],), device=tiles.device)
+    elif metric == 'sifid':
         from .sifid import sifid
 
         score = sifid(source)

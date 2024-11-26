@@ -106,7 +106,7 @@ $ open /tmp/orange_lily/orange_lily.dual_tiles.jpg
     (bool, default=True) whether to save an index.html file in the output directory
 --device DEVICE
     (str, default=cuda) the pytorch device to use
---prefix PREFIX 
+--prefix PREFIX
     (str) the prefix for every file saved in the output directory (defaults to the name of the directory)
 --resume {True,False}
     (bool, default=True) resume generation using files previously saved in directory
