@@ -4,6 +4,7 @@ from einops import rearrange, einsum
 import numpy as np
 from typing import Tuple, Any
 from collections import defaultdict
+from dataclasses import dataclass
 
 def unslide_wrapping(z, off_c, off_r):
     w, h = z.shape[-2:]
@@ -192,7 +193,34 @@ def place_tiles(tiles: Tensor, colors: int, kind: str, indices:Tensor|np.ndarray
         tiling = tiling[0]
     return tiling
 
-def merge_chunks(chunks: list[Any]):
+@dataclass
+class Chunked:
+    inner: Any
+    mode: str
+
+def split_chunks(x: Any, chunk_size) -> Any:
+    if isinstance(x, torch.Tensor) and len(x.shape) > 0:
+        return Chunked(inner=x.chunk(chunk_size), mode='tensor')
+    elif isinstance(x, (tuple, list)):
+        return Chunked(inner=type(x)(split_chunks(item, chunk_size) for item in x), mode='list')
+    elif isinstance(x, dict):
+        return Chunked(inner={k: split_chunks(v, chunk_size) for k, v in x.items()}, mode='dict')
+    else:
+        return x
+
+def select_chunks(x: Any, i: int) -> Any:
+    if not isinstance(x, Chunked):
+        return x
+    elif x.mode == 'tensor':
+        return x.inner[i]
+    elif x.mode == 'list':
+        return type(x.inner)(select_chunks(v, i) for v in x.inner)
+    elif x.mode == 'dict':
+        return {k: select_chunks(v, i) for k, v in x.inner.items()}
+    else:
+        raise NotImplementedError(f'chunking mode {x.mode}')
+
+def merge_chunks(chunks: list[Any]) -> Any:
     rep = chunks[0]
     if rep is None:
         return None
@@ -213,37 +241,24 @@ def merge_chunks(chunks: list[Any]):
         params = merge_chunks([d.parameters for d in chunks])
         return DiagonalGaussianDistribution(params)
     else:
-        NotImplemented(f'merging {type(chunks[0])}')    
+        raise NotImplementedError(f'merging {type(chunks[0])}')
 
 def call_chunked(func, *args, chunk_size=8, **kwargs):
-    new_args = []
-    new_kwargs = []
-    num_chunks = None
-    for x in args:
-        if isinstance(x, torch.Tensor) and len(x.shape) > 0:
-            if num_chunks is None:
-                while x.shape[0] % chunk_size != 0:
-                    chunk_size -= 1
-                num_chunks = x.shape[0] // chunk_size
-            new_args.append((x.chunk(num_chunks), True))
-        else:
-            new_args.append((x, False))
-    for k, x in kwargs.items():
-        if isinstance(x, torch.Tensor) and len(x.shape) > 0:
-            if num_chunks is None:
-                while x.shape[0] % chunk_size != 0:
-                    chunk_size -= 1
-                num_chunks = x.shape[0] // chunk_size
-            new_kwargs.append((k, x.chunk(num_chunks), True))
-        else:
-            new_kwargs.append((k, x, False))
+    split_args = split_chunks(args, chunk_size)
+    split_kwargs = split_chunks(kwargs, chunk_size)
+
     output_list = []
-    assert num_chunks is not None
-    for i in range(num_chunks):
-        this_args = [(arg[i] if is_chunked else arg) for (arg, is_chunked) in new_args]
-        this_kwargs = {k: (arg[i] if is_chunked else arg) for (k, arg, is_chunked) in new_kwargs}
+    i = 0
+    while True:
+        try:
+            this_args = select_chunks(split_args, i)
+            this_kwargs = select_chunks(split_kwargs, i)
+        except IndexError:
+            break
         output = func(*this_args, **this_kwargs)
         output_list.append(output)
+        i += 1
+
     return merge_chunks(output_list)
 
 def triangle_quadrant(side: str, size: int):

@@ -17,6 +17,7 @@ try:
         "LatentRandomTiling": LatentRandomTiling,
         "RollingKSampler": RollingKSampler,
         "SubBatchModel": SubBatchModel,
+        "SubBatchControlNet": SubBatchControlNet,
         "SubBatchVAE": SubBatchVAE,
         "RandomSubsetOfBatch": RandomSubsetOfBatch,
     }
@@ -36,6 +37,7 @@ try:
         "LatentRandomTiling": "Random Tiling (Latent)",
         "RollingKSampler": "KSampler (Rolling)",
         "SubBatchModel": "Sub-batching Model",
+        "SubBatchControlNet": "Sub-batching ControlNet",
         "SubBatchVAE": "Sub-batching VAE",
         "RandomSubsetOfBatch": "Random Subset of Batch",
     }

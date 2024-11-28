@@ -407,6 +407,26 @@ class SubBatchModel:
         return [new_model]
 
 
+class SubBatchControlNet:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "model": ("CONTROL_NET",),
+                "subbatch_size": ("INT", {"default": 8}),
+            },
+        }
+
+    RETURN_TYPES = ("CONTROL_NET",)
+    FUNCTION = "patch"
+    CATEGORY = "model_patches"
+
+    def patch(self, model, subbatch_size: int):
+        new_model = model.copy()
+        new_model.get_control = partial(call_chunked, new_model.get_control, chunk_size=subbatch_size)
+        return [new_model]
+
+
 class SubBatchVAE:
     @classmethod
     def INPUT_TYPES(s):

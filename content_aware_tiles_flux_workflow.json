@@ -1,0 +1,3505 @@
+{
+  "last_node_id": 170,
+  "last_link_id": 394,
+  "nodes": [
+    {
+      "id": 18,
+      "type": "VAEDecode",
+      "pos": [
+        2418,
+        177
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 46,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 297
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 392
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            331
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 19,
+      "type": "TilePacking",
+      "pos": [
+        3210,
+        635
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 51,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "tiles",
+          "type": "IMAGE",
+          "link": 316,
+          "slot_index": 0
+        },
+        {
+          "name": "tileset",
+          "type": "TILESET",
+          "link": 322,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            135,
+            183
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "TilePacking"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 23,
+      "type": "SaveImage",
+      "pos": [
+        3471,
+        634
+      ],
+      "size": [
+        315,
+        270
+      ],
+      "flags": {},
+      "order": 56,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 135
+        }
+      ],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "wangtiles"
+      ]
+    },
+    {
+      "id": 24,
+      "type": "DualBoundaries",
+      "pos": [
+        3154.39599609375,
+        223
+      ],
+      "size": [
+        315,
+        98
+      ],
+      "flags": {},
+      "order": 50,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "tiles",
+          "type": "IMAGE",
+          "link": 315,
+          "slot_index": 0
+        },
+        {
+          "name": "tileset",
+          "type": "TILESET",
+          "link": 320,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 1,
+          "shape": 3
+        },
+        {
+          "name": "TILESET",
+          "type": "TILESET",
+          "links": [
+            48
+          ],
+          "slot_index": 2,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "DualBoundaries"
+      },
+      "widgets_values": [
+        1
+      ]
+    },
+    {
+      "id": 31,
+      "type": "VAEDecode",
+      "pos": [
+        4251.287109375,
+        179.10899353027344
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 23,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 46
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            47,
+            233
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 32,
+      "type": "DualBoundaries",
+      "pos": [
+        4547.83251953125,
+        221.66346740722656
+      ],
+      "size": [
+        315,
+        98
+      ],
+      "flags": {},
+      "order": 60,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "tiles",
+          "type": "IMAGE",
+          "link": 47
+        },
+        {
+          "name": "tileset",
+          "type": "TILESET",
+          "link": 49
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [],
+          "slot_index": 1,
+          "shape": 3
+        },
+        {
+          "name": "TILESET",
+          "type": "TILESET",
+          "links": [
+            61
+          ],
+          "slot_index": 2,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "DualBoundaries"
+      },
+      "widgets_values": [
+        1
+      ]
+    },
+    {
+      "id": 33,
+      "type": "Reroute",
+      "pos": [
+        4357.287109375,
+        244.10899353027344
+      ],
+      "size": [
+        98.80000305175781,
+        26
+      ],
+      "flags": {},
+      "order": 55,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 48
+        }
+      ],
+      "outputs": [
+        {
+          "name": "TILESET",
+          "type": "TILESET",
+          "links": [
+            49
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "showOutputText": true,
+        "horizontal": false
+      }
+    },
+    {
+      "id": 36,
+      "type": "VAEDecode",
+      "pos": [
+        5646.83251953125,
+        210.66346740722656
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 24,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 57
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            58
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 37,
+      "type": "ImageBatch",
+      "pos": [
+        5905.27783203125,
+        198.99998474121094
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 32,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image1",
+          "type": "IMAGE",
+          "link": 60
+        },
+        {
+          "name": "image2",
+          "type": "IMAGE",
+          "link": 58
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            62
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ImageBatch"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 38,
+      "type": "Reroute",
+      "pos": [
+        5238,
+        8
+      ],
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 29,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 233
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "IMAGE",
+          "links": [
+            60
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false
+      }
+    },
+    {
+      "id": 39,
+      "type": "Reroute",
+      "pos": [
+        6011.83251953125,
+        255.66346740722656
+      ],
+      "size": [
+        98.80000305175781,
+        26
+      ],
+      "flags": {},
+      "order": 63,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 61
+        }
+      ],
+      "outputs": [
+        {
+          "name": "TILESET",
+          "type": "TILESET",
+          "links": [
+            65,
+            170
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "showOutputText": true,
+        "horizontal": false
+      }
+    },
+    {
+      "id": 40,
+      "type": "TilePacking",
+      "pos": [
+        4725,
+        612
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 64,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "tiles",
+          "type": "IMAGE",
+          "link": 62,
+          "slot_index": 0
+        },
+        {
+          "name": "tileset",
+          "type": "TILESET",
+          "link": 65
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            64,
+            169
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "TilePacking"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 41,
+      "type": "SaveImage",
+      "pos": [
+        4978,
+        614
+      ],
+      "size": [
+        315,
+        270
+      ],
+      "flags": {},
+      "order": 65,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 64
+        }
+      ],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "dualtiles"
+      ]
+    },
+    {
+      "id": 84,
+      "type": "RandomTiling",
+      "pos": [
+        5323,
+        613
+      ],
+      "size": [
+        315,
+        102
+      ],
+      "flags": {},
+      "order": 66,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "tiles",
+          "type": "IMAGE",
+          "link": 169,
+          "slot_index": 0
+        },
+        {
+          "name": "tileset",
+          "type": "TILESET",
+          "link": 170,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            171
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomTiling"
+      },
+      "widgets_values": [
+        30,
+        15
+      ]
+    },
+    {
+      "id": 85,
+      "type": "SaveImage",
+      "pos": [
+        5695,
+        680
+      ],
+      "size": [
+        315,
+        270
+      ],
+      "flags": {},
+      "order": 67,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 171
+        }
+      ],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "dualtiling"
+      ]
+    },
+    {
+      "id": 86,
+      "type": "PreviewImage",
+      "pos": [
+        2675,
+        602
+      ],
+      "size": [
+        210,
+        246
+      ],
+      "flags": {},
+      "order": 45,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 278,
+          "slot_index": 0
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 90,
+      "type": "RandomTiling",
+      "pos": [
+        3805,
+        626
+      ],
+      "size": [
+        315,
+        102
+      ],
+      "flags": {},
+      "order": 57,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "tiles",
+          "type": "IMAGE",
+          "link": 183,
+          "slot_index": 0
+        },
+        {
+          "name": "tileset",
+          "type": "TILESET",
+          "link": 321,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            185
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomTiling"
+      },
+      "widgets_values": [
+        28,
+        15
+      ]
+    },
+    {
+      "id": 91,
+      "type": "PreviewImage",
+      "pos": [
+        4168,
+        631
+      ],
+      "size": [
+        210,
+        246
+      ],
+      "flags": {},
+      "order": 61,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 185
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 93,
+      "type": "JoinImageWithAlpha",
+      "pos": [
+        2078,
+        598
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 39,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 189
+        },
+        {
+          "name": "alpha",
+          "type": "MASK",
+          "link": 190
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            279
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "JoinImageWithAlpha"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 101,
+      "type": "VAEDecode",
+      "pos": [
+        2354.922607421875,
+        1312.014892578125
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 44,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 223
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 393
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            325
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 104,
+      "type": "RandomTiling",
+      "pos": [
+        3736,
+        1427
+      ],
+      "size": [
+        315,
+        102
+      ],
+      "flags": {},
+      "order": 54,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "tiles",
+          "type": "IMAGE",
+          "link": 258,
+          "slot_index": 0
+        },
+        {
+          "name": "tileset",
+          "type": "TILESET",
+          "link": 330,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            231
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomTiling"
+      },
+      "widgets_values": [
+        30,
+        15
+      ]
+    },
+    {
+      "id": 105,
+      "type": "PreviewImage",
+      "pos": [
+        4088,
+        1433
+      ],
+      "size": [
+        210,
+        246
+      ],
+      "flags": {},
+      "order": 59,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 231
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 106,
+      "type": "Reroute",
+      "pos": [
+        2461.922607421875,
+        1374.014892578125
+      ],
+      "size": [
+        98.80000305175781,
+        26
+      ],
+      "flags": {},
+      "order": 38,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 226
+        }
+      ],
+      "outputs": [
+        {
+          "name": "TILESET",
+          "type": "TILESET",
+          "links": [
+            326
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "showOutputText": true,
+        "horizontal": false
+      }
+    },
+    {
+      "id": 109,
+      "type": "TilePacking",
+      "pos": [
+        3122,
+        1436
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 49,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "tiles",
+          "type": "IMAGE",
+          "link": 328,
+          "slot_index": 0
+        },
+        {
+          "name": "tileset",
+          "type": "TILESET",
+          "link": 329
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            257,
+            258
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "TilePacking"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 115,
+      "type": "SaveImage",
+      "pos": [
+        3383,
+        1436
+      ],
+      "size": [
+        315,
+        270
+      ],
+      "flags": {},
+      "order": 53,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 257
+        }
+      ],
+      "outputs": [],
+      "properties": {},
+      "widgets_values": [
+        "singletiles"
+      ]
+    },
+    {
+      "id": 120,
+      "type": "RandomSubsetOfBatch",
+      "pos": [
+        2312,
+        601
+      ],
+      "size": [
+        315,
+        58
+      ],
+      "flags": {},
+      "order": 42,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 279
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            278
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomSubsetOfBatch"
+      },
+      "widgets_values": [
+        4
+      ]
+    },
+    {
+      "id": 130,
+      "type": "Note",
+      "pos": [
+        914,
+        -10
+      ],
+      "size": [
+        226.41766357421875,
+        61.137271881103516
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "You can either start with an real photograph or generate one below!"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 131,
+      "type": "Note",
+      "pos": [
+        2633,
+        503
+      ],
+      "size": [
+        309.24468994140625,
+        66.88286590576172
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "Here is a preview of the boundary conditions used to guide the inpainter to create tillable tiles"
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 132,
+      "type": "Note",
+      "pos": [
+        3198,
+        514
+      ],
+      "size": [
+        244.5005645751953,
+        89.01774597167969
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "We can save tiles more efficiently in a packed format. Look at the supplemental to see how tiles are arranged into a packing."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 133,
+      "type": "Note",
+      "pos": [
+        3800,
+        519
+      ],
+      "size": [
+        335.6997375488281,
+        79.60054016113281
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "We can make a large random tiling! This node accepts the packed image, the individual tiles given by the \"Tile Images\" node, or the raw uncropped output of the inpainting process."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 135,
+      "type": "Note",
+      "pos": [
+        5680,
+        549
+      ],
+      "size": [
+        356.7140808105469,
+        93.99703216552734
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "The dual tiling is generally the best looking, because it does not suffer from mismatched corners. But it is also farthest from the input image, has round-tripped through the VAE the most times, etc. This can cause its own problems."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 136,
+      "type": "Note",
+      "pos": [
+        2666,
+        165
+      ],
+      "size": [
+        336.76336669921875,
+        88.8369369506836
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "Even with good prompting, the inpainter sometimes makes garbage. We can create multiple candidates for each tile in the \"Random Wang Boundaries\" node and then pick the best ones here. This node does nothing if \"canidates=1\"."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 137,
+      "type": "Note",
+      "pos": [
+        1411,
+        114
+      ],
+      "size": [
+        335.64111328125,
+        107.69554901123047
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "Setup the tile boundaries for inpainting! \"ortho constrained\" mode works best with textures that have long linear elements like boards. \"arbitrary\" mode works better on irregular textures. The tile resolution depends on the inpainting model being used: SD2 requires 256 and SDXL requires 512."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 138,
+      "type": "TileImages",
+      "pos": [
+        3204,
+        1055
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 52,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "tiles",
+          "type": "IMAGE",
+          "link": 319,
+          "slot_index": 0
+        },
+        {
+          "name": "tileset",
+          "type": "TILESET",
+          "link": 323,
+          "slot_index": 1
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            307
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "TileImages"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 139,
+      "type": "Note",
+      "pos": [
+        3197,
+        957
+      ],
+      "size": [
+        239.34056091308594,
+        58
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "You can instead separate tiles out into individual images."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 141,
+      "type": "RandomSubsetOfBatch",
+      "pos": [
+        3454,
+        1039
+      ],
+      "size": [
+        315,
+        58
+      ],
+      "flags": {},
+      "order": 58,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 307
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            308
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomSubsetOfBatch"
+      },
+      "widgets_values": [
+        4
+      ]
+    },
+    {
+      "id": 142,
+      "type": "PreviewImage",
+      "pos": [
+        3816,
+        1039
+      ],
+      "size": [
+        210,
+        246
+      ],
+      "flags": {},
+      "order": 62,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 308,
+          "slot_index": 0
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 143,
+      "type": "Note",
+      "pos": [
+        3376,
+        1327
+      ],
+      "size": [
+        320.2667541503906,
+        82.29669189453125
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "This is a tiling where every tile tiles with every other tile, created by setting \"colors=1\". It tends to look much less diverse, but can be very robust."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 144,
+      "type": "Note",
+      "pos": [
+        2637,
+        1346
+      ],
+      "size": [
+        341.92877197265625,
+        58.182315826416016
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "In this case we keep the top 50% of generated tiles."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 145,
+      "type": "Note",
+      "pos": [
+        5898.27783203125,
+        110.99998474121094
+      ],
+      "size": [
+        232.44586181640625,
+        58
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {
+        "text": ""
+      },
+      "widgets_values": [
+        "A full set of dual tiles includes both interior and cross tiles."
+      ],
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 148,
+      "type": "RejectCandidateTiles",
+      "pos": [
+        2679,
+        288
+      ],
+      "size": [
+        315,
+        122
+      ],
+      "flags": {},
+      "order": 48,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "tiles",
+          "type": "IMAGE",
+          "link": 331
+        },
+        {
+          "name": "tileset",
+          "type": "TILESET",
+          "link": 311
+        },
+        {
+          "name": "source",
+          "type": "IMAGE",
+          "link": 312
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            315,
+            316,
+            319
+          ],
+          "shape": 3
+        },
+        {
+          "name": "TILESET",
+          "type": "TILESET",
+          "links": [
+            320,
+            321,
+            322,
+            323
+          ],
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RejectCandidateTiles"
+      },
+      "widgets_values": [
+        "sifid",
+        1
+      ]
+    },
+    {
+      "id": 149,
+      "type": "RejectCandidateTiles",
+      "pos": [
+        2647,
+        1437
+      ],
+      "size": [
+        315,
+        122
+      ],
+      "flags": {},
+      "order": 47,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "tiles",
+          "type": "IMAGE",
+          "link": 325
+        },
+        {
+          "name": "tileset",
+          "type": "TILESET",
+          "link": 326
+        },
+        {
+          "name": "source",
+          "type": "IMAGE",
+          "link": 327
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            328
+          ],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "TILESET",
+          "type": "TILESET",
+          "links": [
+            329,
+            330
+          ],
+          "slot_index": 1,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RejectCandidateTiles"
+      },
+      "widgets_values": [
+        "sifid",
+        8
+      ]
+    },
+    {
+      "id": 159,
+      "type": "EmptySD3LatentImage",
+      "pos": [
+        -736.6572265625,
+        1043.236572265625
+      ],
+      "size": [
+        315,
+        106
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            349
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptySD3LatentImage"
+      },
+      "widgets_values": [
+        1024,
+        1024,
+        1
+      ]
+    },
+    {
+      "id": 155,
+      "type": "VAELoader",
+      "pos": [
+        -1107.656982421875,
+        875.236328125
+      ],
+      "size": [
+        315,
+        58
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            350,
+            366
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "flux_vae.safetensors"
+      ]
+    },
+    {
+      "id": 156,
+      "type": "DualCLIPLoaderGGUF",
+      "pos": [
+        -1108.656982421875,
+        705.236328125
+      ],
+      "size": [
+        315,
+        106
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            351
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "DualCLIPLoaderGGUF"
+      },
+      "widgets_values": [
+        "clip_l.safetensors",
+        "t5xxl_fp8_e4m3fn.safetensors",
+        "flux"
+      ]
+    },
+    {
+      "id": 112,
+      "type": "RollingKSampler",
+      "pos": [
+        -271.8980407714844,
+        610.6158447265625
+      ],
+      "size": [
+        315,
+        498
+      ],
+      "flags": {},
+      "order": 27,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 352
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 347
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 348
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 349
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            248
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RollingKSampler"
+      },
+      "widgets_values": [
+        968184839201187,
+        "randomize",
+        30,
+        1,
+        "euler",
+        "normal",
+        1,
+        4
+      ]
+    },
+    {
+      "id": 82,
+      "type": "LoadImage",
+      "pos": [
+        862,
+        101
+      ],
+      "size": [
+        315,
+        314
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "slot_index": 1,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "orange_lily.scaled_input.jpg",
+        "image"
+      ]
+    },
+    {
+      "id": 98,
+      "type": "Reroute",
+      "pos": [
+        1264,
+        484
+      ],
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 34,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 394
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "IMAGE",
+          "links": [
+            206,
+            312,
+            327,
+            345
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false
+      }
+    },
+    {
+      "id": 27,
+      "type": "KSampler",
+      "pos": [
+        3900.99072265625,
+        138.7845001220703
+      ],
+      "size": [
+        315,
+        262
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": null
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": null
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": null
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            46
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        50057288734293,
+        "randomize",
+        30,
+        1,
+        "euler",
+        "normal",
+        1
+      ]
+    },
+    {
+      "id": 35,
+      "type": "KSampler",
+      "pos": [
+        5263.27783203125,
+        165.99998474121094
+      ],
+      "size": [
+        315,
+        262
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": null
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": null
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": null
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            57
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        404404571902465,
+        "randomize",
+        20,
+        1,
+        "euler",
+        "normal",
+        1
+      ]
+    },
+    {
+      "id": 157,
+      "type": "UnetLoaderGGUF",
+      "pos": [
+        -1111.656982421875,
+        584.236328125
+      ],
+      "size": [
+        315,
+        58
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            352,
+            371
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UnetLoaderGGUF"
+      },
+      "widgets_values": [
+        "flux1-dev-Q4_0.gguf"
+      ]
+    },
+    {
+      "id": 100,
+      "type": "KSampler",
+      "pos": [
+        1974,
+        1307
+      ],
+      "size": [
+        315,
+        262
+      ],
+      "flags": {},
+      "order": 41,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 375
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 372
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 373
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 374
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            223
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        207653727624698,
+        "randomize",
+        20,
+        1,
+        "euler",
+        "normal",
+        1
+      ]
+    },
+    {
+      "id": 170,
+      "type": "EmptySD3LatentImage",
+      "pos": [
+        1773,
+        355
+      ],
+      "size": [
+        267.1173095703125,
+        106
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            382
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptySD3LatentImage"
+      },
+      "widgets_values": [
+        1024,
+        1024,
+        9
+      ]
+    },
+    {
+      "id": 169,
+      "type": "ControlNetInpaintingAliMamaApply",
+      "pos": [
+        1770,
+        86
+      ],
+      "size": [
+        268.79998779296875,
+        206
+      ],
+      "flags": {
+        "collapsed": false
+      },
+      "order": 40,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 387
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 386
+        },
+        {
+          "name": "control_net",
+          "type": "CONTROL_NET",
+          "link": 388
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 389
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 390
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 391
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            384
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            383
+          ],
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ControlNetInpaintingAliMamaApply"
+      },
+      "widgets_values": [
+        1,
+        0,
+        1
+      ]
+    },
+    {
+      "id": 167,
+      "type": "ControlNetInpaintingAliMamaApply",
+      "pos": [
+        1683,
+        1302
+      ],
+      "size": [
+        268.79998779296875,
+        206
+      ],
+      "flags": {},
+      "order": 37,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 376
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 377
+        },
+        {
+          "name": "control_net",
+          "type": "CONTROL_NET",
+          "link": 378
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 379
+        },
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 380
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "link": 381
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            372
+          ],
+          "slot_index": 0
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            373
+          ],
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ControlNetInpaintingAliMamaApply"
+      },
+      "widgets_values": [
+        1,
+        0,
+        1
+      ]
+    },
+    {
+      "id": 168,
+      "type": "EmptySD3LatentImage",
+      "pos": [
+        1697,
+        1550
+      ],
+      "size": [
+        241.04782104492188,
+        106
+      ],
+      "flags": {},
+      "order": 19,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            374
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "EmptySD3LatentImage"
+      },
+      "widgets_values": [
+        1024,
+        1024,
+        8
+      ]
+    },
+    {
+      "id": 165,
+      "type": "TorchCompileModel",
+      "pos": [
+        520.191162109375,
+        855.0670776367188
+      ],
+      "size": [
+        315,
+        58
+      ],
+      "flags": {},
+      "order": 25,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 371
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            369
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "TorchCompileModel"
+      },
+      "widgets_values": [
+        "cudagraphs"
+      ]
+    },
+    {
+      "id": 161,
+      "type": "SubBatchModel",
+      "pos": [
+        862.1904907226562,
+        851.0670776367188
+      ],
+      "size": [
+        315,
+        58
+      ],
+      "flags": {},
+      "order": 30,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 369
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            375,
+            385
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SubBatchModel"
+      },
+      "widgets_values": [
+        9
+      ]
+    },
+    {
+      "id": 162,
+      "type": "SubBatchVAE",
+      "pos": [
+        861.1904907226562,
+        965.0670776367188
+      ],
+      "size": [
+        315,
+        58
+      ],
+      "flags": {},
+      "order": 21,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "VAE",
+          "link": 366
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            379,
+            389,
+            392,
+            393
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SubBatchVAE"
+      },
+      "widgets_values": [
+        9
+      ]
+    },
+    {
+      "id": 166,
+      "type": "Reroute",
+      "pos": [
+        1092.19091796875,
+        1043.06689453125
+      ],
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 26,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 370
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "CONTROL_NET",
+          "links": [
+            378,
+            388
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false
+      }
+    },
+    {
+      "id": 163,
+      "type": "Reroute",
+      "pos": [
+        1096.1907958984375,
+        749.0670776367188
+      ],
+      "size": [
+        75,
+        26
+      ],
+      "flags": {},
+      "order": 28,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "",
+          "type": "*",
+          "link": 367
+        }
+      ],
+      "outputs": [
+        {
+          "name": "",
+          "type": "CONDITIONING",
+          "links": [
+            376,
+            377,
+            386,
+            387
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "showOutputText": false,
+        "horizontal": false
+      }
+    },
+    {
+      "id": 164,
+      "type": "ControlNetLoader",
+      "pos": [
+        28,
+        1094
+      ],
+      "size": [
+        315,
+        58
+      ],
+      "flags": {},
+      "order": 20,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CONTROL_NET",
+          "type": "CONTROL_NET",
+          "links": [
+            370
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ControlNetLoader"
+      },
+      "widgets_values": [
+        "flex_inpainting_beta.safetensors"
+      ]
+    },
+    {
+      "id": 11,
+      "type": "PreviewImage",
+      "pos": [
+        135,
+        713
+      ],
+      "size": [
+        210,
+        246
+      ],
+      "flags": {},
+      "order": 33,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 174,
+          "slot_index": 0
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 8,
+      "type": "VAEDecode",
+      "pos": [
+        124,
+        607
+      ],
+      "size": [
+        210,
+        46
+      ],
+      "flags": {},
+      "order": 31,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 248
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 350
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            174,
+            394
+          ],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 158,
+      "type": "CLIPTextEncode",
+      "pos": [
+        -742.6572265625,
+        610.236328125
+      ],
+      "size": [
+        349.525146484375,
+        182.1963653564453
+      ],
+      "flags": {
+        "collapsed": false,
+        "pinned": false
+      },
+      "order": 22,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 351,
+          "slot_index": 0
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            347,
+            348,
+            367
+          ],
+          "slot_index": 0
+        }
+      ],
+      "title": "Prompt Positive",
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "Kawaii festive christmas wrapping paper with tiny random objects: peppermint candies, candy canes, snowflakes, snwomen, packages, and baubles"
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 122,
+      "type": "KSampler",
+      "pos": [
+        2064,
+        147
+      ],
+      "size": [
+        315,
+        262
+      ],
+      "flags": {},
+      "order": 43,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 385
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 384
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 383
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 382
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            297
+          ],
+          "slot_index": 0,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSampler"
+      },
+      "widgets_values": [
+        770527049713630,
+        "randomize",
+        20,
+        1,
+        "euler",
+        "normal",
+        1
+      ]
+    },
+    {
+      "id": 14,
+      "type": "RandomWangBoundaries",
+      "pos": [
+        1418,
+        257
+      ],
+      "size": [
+        315,
+        170
+      ],
+      "flags": {},
+      "order": 36,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 345
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            189,
+            390
+          ],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [
+            190,
+            391
+          ],
+          "slot_index": 1,
+          "shape": 3
+        },
+        {
+          "name": "TILESET",
+          "type": "TILESET",
+          "links": [
+            311
+          ],
+          "slot_index": 2,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomWangBoundaries"
+      },
+      "widgets_values": [
+        "arbitrary",
+        3,
+        1,
+        512
+      ]
+    },
+    {
+      "id": 97,
+      "type": "RandomWangBoundaries",
+      "pos": [
+        1338,
+        1346
+      ],
+      "size": [
+        315,
+        170
+      ],
+      "flags": {},
+      "order": 35,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 206
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            380
+          ],
+          "slot_index": 0,
+          "shape": 3
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": [
+            381
+          ],
+          "slot_index": 1,
+          "shape": 3
+        },
+        {
+          "name": "TILESET",
+          "type": "TILESET",
+          "links": [
+            226
+          ],
+          "slot_index": 2,
+          "shape": 3
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomWangBoundaries"
+      },
+      "widgets_values": [
+        "arbitrary",
+        1,
+        8,
+        512
+      ]
+    }
+  ],
+  "links": [
+    [
+      46,
+      27,
+      0,
+      31,
+      0,
+      "LATENT"
+    ],
+    [
+      47,
+      31,
+      0,
+      32,
+      0,
+      "IMAGE"
+    ],
+    [
+      48,
+      24,
+      2,
+      33,
+      0,
+      "*"
+    ],
+    [
+      49,
+      33,
+      0,
+      32,
+      1,
+      "TILESET"
+    ],
+    [
+      57,
+      35,
+      0,
+      36,
+      0,
+      "LATENT"
+    ],
+    [
+      58,
+      36,
+      0,
+      37,
+      1,
+      "IMAGE"
+    ],
+    [
+      60,
+      38,
+      0,
+      37,
+      0,
+      "IMAGE"
+    ],
+    [
+      61,
+      32,
+      2,
+      39,
+      0,
+      "*"
+    ],
+    [
+      62,
+      37,
+      0,
+      40,
+      0,
+      "IMAGE"
+    ],
+    [
+      64,
+      40,
+      0,
+      41,
+      0,
+      "IMAGE"
+    ],
+    [
+      65,
+      39,
+      0,
+      40,
+      1,
+      "TILESET"
+    ],
+    [
+      135,
+      19,
+      0,
+      23,
+      0,
+      "IMAGE"
+    ],
+    [
+      169,
+      40,
+      0,
+      84,
+      0,
+      "IMAGE"
+    ],
+    [
+      170,
+      39,
+      0,
+      84,
+      1,
+      "TILESET"
+    ],
+    [
+      171,
+      84,
+      0,
+      85,
+      0,
+      "IMAGE"
+    ],
+    [
+      174,
+      8,
+      0,
+      11,
+      0,
+      "IMAGE"
+    ],
+    [
+      183,
+      19,
+      0,
+      90,
+      0,
+      "IMAGE"
+    ],
+    [
+      185,
+      90,
+      0,
+      91,
+      0,
+      "IMAGE"
+    ],
+    [
+      189,
+      14,
+      0,
+      93,
+      0,
+      "IMAGE"
+    ],
+    [
+      190,
+      14,
+      1,
+      93,
+      1,
+      "MASK"
+    ],
+    [
+      206,
+      98,
+      0,
+      97,
+      0,
+      "IMAGE"
+    ],
+    [
+      223,
+      100,
+      0,
+      101,
+      0,
+      "LATENT"
+    ],
+    [
+      226,
+      97,
+      2,
+      106,
+      0,
+      "*"
+    ],
+    [
+      231,
+      104,
+      0,
+      105,
+      0,
+      "IMAGE"
+    ],
+    [
+      233,
+      31,
+      0,
+      38,
+      0,
+      "*"
+    ],
+    [
+      248,
+      112,
+      0,
+      8,
+      0,
+      "LATENT"
+    ],
+    [
+      257,
+      109,
+      0,
+      115,
+      0,
+      "IMAGE"
+    ],
+    [
+      258,
+      109,
+      0,
+      104,
+      0,
+      "IMAGE"
+    ],
+    [
+      278,
+      120,
+      0,
+      86,
+      0,
+      "IMAGE"
+    ],
+    [
+      279,
+      93,
+      0,
+      120,
+      0,
+      "IMAGE"
+    ],
+    [
+      297,
+      122,
+      0,
+      18,
+      0,
+      "LATENT"
+    ],
+    [
+      307,
+      138,
+      0,
+      141,
+      0,
+      "IMAGE"
+    ],
+    [
+      308,
+      141,
+      0,
+      142,
+      0,
+      "IMAGE"
+    ],
+    [
+      311,
+      14,
+      2,
+      148,
+      1,
+      "TILESET"
+    ],
+    [
+      312,
+      98,
+      0,
+      148,
+      2,
+      "IMAGE"
+    ],
+    [
+      315,
+      148,
+      0,
+      24,
+      0,
+      "IMAGE"
+    ],
+    [
+      316,
+      148,
+      0,
+      19,
+      0,
+      "IMAGE"
+    ],
+    [
+      317,
+      116,
+      0,
+      148,
+      0,
+      "IMAGE"
+    ],
+    [
+      319,
+      148,
+      0,
+      138,
+      0,
+      "IMAGE"
+    ],
+    [
+      320,
+      148,
+      1,
+      24,
+      1,
+      "TILESET"
+    ],
+    [
+      321,
+      148,
+      1,
+      90,
+      1,
+      "TILESET"
+    ],
+    [
+      322,
+      148,
+      1,
+      19,
+      1,
+      "TILESET"
+    ],
+    [
+      323,
+      148,
+      1,
+      138,
+      1,
+      "TILESET"
+    ],
+    [
+      325,
+      101,
+      0,
+      149,
+      0,
+      "IMAGE"
+    ],
+    [
+      326,
+      106,
+      0,
+      149,
+      1,
+      "TILESET"
+    ],
+    [
+      327,
+      98,
+      0,
+      149,
+      2,
+      "IMAGE"
+    ],
+    [
+      328,
+      149,
+      0,
+      109,
+      0,
+      "IMAGE"
+    ],
+    [
+      329,
+      149,
+      1,
+      109,
+      1,
+      "TILESET"
+    ],
+    [
+      330,
+      149,
+      1,
+      104,
+      1,
+      "TILESET"
+    ],
+    [
+      331,
+      18,
+      0,
+      148,
+      0,
+      "IMAGE"
+    ],
+    [
+      345,
+      98,
+      0,
+      14,
+      0,
+      "IMAGE"
+    ],
+    [
+      347,
+      158,
+      0,
+      112,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      348,
+      158,
+      0,
+      112,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      349,
+      159,
+      0,
+      112,
+      3,
+      "LATENT"
+    ],
+    [
+      350,
+      155,
+      0,
+      8,
+      1,
+      "VAE"
+    ],
+    [
+      351,
+      156,
+      0,
+      158,
+      0,
+      "CLIP"
+    ],
+    [
+      352,
+      157,
+      0,
+      112,
+      0,
+      "MODEL"
+    ],
+    [
+      366,
+      155,
+      0,
+      162,
+      0,
+      "VAE"
+    ],
+    [
+      367,
+      158,
+      0,
+      163,
+      0,
+      "*"
+    ],
+    [
+      369,
+      165,
+      0,
+      161,
+      0,
+      "MODEL"
+    ],
+    [
+      370,
+      164,
+      0,
+      166,
+      0,
+      "*"
+    ],
+    [
+      371,
+      157,
+      0,
+      165,
+      0,
+      "MODEL"
+    ],
+    [
+      372,
+      167,
+      0,
+      100,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      373,
+      167,
+      1,
+      100,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      374,
+      168,
+      0,
+      100,
+      3,
+      "LATENT"
+    ],
+    [
+      375,
+      161,
+      0,
+      100,
+      0,
+      "MODEL"
+    ],
+    [
+      376,
+      163,
+      0,
+      167,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      377,
+      163,
+      0,
+      167,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      378,
+      166,
+      0,
+      167,
+      2,
+      "CONTROL_NET"
+    ],
+    [
+      379,
+      162,
+      0,
+      167,
+      3,
+      "VAE"
+    ],
+    [
+      380,
+      97,
+      0,
+      167,
+      4,
+      "IMAGE"
+    ],
+    [
+      381,
+      97,
+      1,
+      167,
+      5,
+      "MASK"
+    ],
+    [
+      382,
+      170,
+      0,
+      122,
+      3,
+      "LATENT"
+    ],
+    [
+      383,
+      169,
+      1,
+      122,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      384,
+      169,
+      0,
+      122,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      385,
+      161,
+      0,
+      122,
+      0,
+      "MODEL"
+    ],
+    [
+      386,
+      163,
+      0,
+      169,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      387,
+      163,
+      0,
+      169,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      388,
+      166,
+      0,
+      169,
+      2,
+      "CONTROL_NET"
+    ],
+    [
+      389,
+      162,
+      0,
+      169,
+      3,
+      "VAE"
+    ],
+    [
+      390,
+      14,
+      0,
+      169,
+      4,
+      "IMAGE"
+    ],
+    [
+      391,
+      14,
+      1,
+      169,
+      5,
+      "MASK"
+    ],
+    [
+      392,
+      162,
+      0,
+      18,
+      1,
+      "VAE"
+    ],
+    [
+      393,
+      162,
+      0,
+      101,
+      1,
+      "VAE"
+    ],
+    [
+      394,
+      8,
+      0,
+      98,
+      0,
+      "*"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "Source Image",
+      "bounding": [
+        -1112.656982421875,
+        502.2364196777344,
+        1472.3646240234375,
+        662.3228149414062
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "Wang Tiles",
+      "bounding": [
+        1342,
+        55,
+        1673,
+        394
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 4,
+      "title": "Interior Tiles",
+      "bounding": [
+        3122,
+        58,
+        1354,
+        393
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 5,
+      "title": "Cross Tiles",
+      "bounding": [
+        4523,
+        62,
+        1615,
+        393
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 6,
+      "title": "Single Tiles",
+      "bounding": [
+        1313,
+        1272,
+        1681.1885986328125,
+        388.935546875
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "id": 7,
+      "title": "Group",
+      "bounding": [
+        501.2132263183594,
+        699.5059204101562,
+        697.5343627929688,
+        389.01544189453125
+      ],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.5209868481924494,
+      "offset": [
+        156.9587420833758,
+        326.29365743325326
+      ]
+    }
+  },
+  "version": 0.4
+}
