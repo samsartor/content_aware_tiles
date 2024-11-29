@@ -1,8 +1,10 @@
+.git
+.gitignore
+doc
 __pycache__
 venv
 .venv
 *.egg-info
-textile
 tiling_canvas/node_modules
 tiling_canvas/package-lock.json
-data
+Dockerfile

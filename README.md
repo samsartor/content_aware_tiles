@@ -47,6 +47,13 @@ $ open /tmp/orange_lily/orange_lily.dual_tiles.jpg
 3. install with `pip install -e '.[cli]'`
 4. run `python generate_tiles.py [OUTPUT_DIRECTORY] --prompt "[PROMPT]"`
 
+## Docker
+
+1. `docker build . -t content_aware_tiles`
+2. `docker compose -f compose.yaml run --rm content_aware_tiles`
+3. `huggingface-cli download stabilityai/stable-diffusion-2-inpainting 512-inpainting-ema.safetensors` (optional)
+3. either `python ComfyUI/main.py` or `python content_aware_tiles/generate_tiles.py`
+
 ### Command Line Options
 
 ```text

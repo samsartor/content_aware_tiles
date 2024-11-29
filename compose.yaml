@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  content_aware_tiles:
+    image: content_aware_tiles
+    stdin_open: true
+    tty: true
+    network_mode: host
+    volumes:
+      - data:/root/data
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+volumes:
+  data:
