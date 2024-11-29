@@ -12,6 +12,9 @@ dependencies = [
   "accelerate",
 ]
 
+[tool.setuptools.packages.find]
+include = ["content_aware_tiles"]
+
 [project.optional-dependencies]
 cli = [
   "scikit-image",
