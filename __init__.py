@@ -20,6 +20,7 @@ try:
         "SubBatchControlNet": SubBatchControlNet,
         "SubBatchVAE": SubBatchVAE,
         "RandomSubsetOfBatch": RandomSubsetOfBatch,
+        "FillMask": FillMask,
     }
 
     NODE_DISPLAY_NAME_MAPPINGS = {
@@ -40,6 +41,7 @@ try:
         "SubBatchControlNet": "Sub-batching ControlNet",
         "SubBatchVAE": "Sub-batching VAE",
         "RandomSubsetOfBatch": "Random Subset of Batch",
+        "FillMask": "Fill Mask",
     }
 except ImportError as e:
     if e.name != 'comfy':

@@ -235,7 +235,7 @@ def merge_chunks(chunks: list[Any]) -> Any:
         merged = {}
         for k in rep.keys():
             merged[k] = merge_chunks([c[k] for c in chunks])
-        return type(rep)(merged)
+        return merged
     elif type(rep).__name__ == 'DiagonalGaussianDistribution':
         from diffusers.models.autoencoders.vae import DiagonalGaussianDistribution
         params = merge_chunks([d.parameters for d in chunks])
@@ -456,7 +456,13 @@ def diamond_inpaint_mask(resolution: int, source: torch.Tensor, diameter: float=
     return mask.reshape(1, tw, th)
 
 
-def inpainting_from_boundaries(source: torch.Tensor, colors: int, boundary_kind: str, source_kind: str) -> Tuple[torch.Tensor, torch.Tensor]:
+def inpainting_from_boundaries(
+    source: torch.Tensor,
+    colors: int,
+    boundary_kind: str,
+    source_kind: str,
+    mask_size: int | None = None,
+) -> Tuple[torch.Tensor, torch.Tensor]:
     """
     Generate exterior boundary conditions for content-aware tile generation.
 
@@ -480,7 +486,8 @@ def inpainting_from_boundaries(source: torch.Tensor, colors: int, boundary_kind:
 
     if (boundary_kind == 'wang' or boundary_kind == 'self') and source_kind == 'cuts':
         tile_size = source.shape[-1]//2
-        crop = tile_size//2
+        if mask_size is None:
+            mask_size = tile_size
 
         tile_outsides = []
         for index in range(colors**4):
@@ -503,16 +510,19 @@ def inpainting_from_boundaries(source: torch.Tensor, colors: int, boundary_kind:
         tile_outsides = torch.stack(tile_outsides, 0)
 
         d = {'dtype': tile_outsides.dtype, 'device': tile_outsides.device}
-        z = torch.zeros(1, tile_size, tile_size, **d)
-        o = torch.ones(1, tile_size, tile_size, **d)
+        z = torch.zeros(1, mask_size, mask_size, **d)
+        o = torch.ones(1, mask_size, mask_size, **d)
         outsides_mask = torch.cat([
             torch.cat([o, z, o], -1),
             torch.cat([z, o, z], -1),
             torch.cat([o, z, o], -1),
         ], -2)
-        outsides_mask = outsides_mask[:, crop:-crop, crop:-crop]
+        mcrop = mask_size // 2
+        outsides_mask = outsides_mask[:, mcrop:-mcrop, mcrop:-mcrop]
     elif boundary_kind == 'dual' and source_kind == 'wang':
         tile_size = source.shape[-1]
+        if mask_size is None:
+            mask_size = tile_size
         crop = tile_size//2
 
         small_outsides = {}
@@ -551,9 +561,11 @@ def inpainting_from_boundaries(source: torch.Tensor, colors: int, boundary_kind:
             tile_outsides.append(combined)
 
         tile_outsides = torch.cat(tile_outsides)
-        outsides_mask = diamond_inpaint_mask(tile_size, source)
+        outsides_mask = diamond_inpaint_mask(mask_size, source)
     elif boundary_kind == 'dual' and source_kind == 'uncropped_wang':
         full = source.shape[-1]
+        if mask_size is None:
+            mask_size = full
         half = full//2
         crop = half//2
     
@@ -583,10 +595,13 @@ def inpainting_from_boundaries(source: torch.Tensor, colors: int, boundary_kind:
             tile_outsides.append(combined)
     
         tile_outsides = torch.cat(tile_outsides)
-        outsides_mask = diamond_inpaint_mask(full, source)
+        outsides_mask = diamond_inpaint_mask(mask_size, source)
     elif boundary_kind == 'wang' and source_kind == 'wang':
         tile_size = source.shape[-1]
+        if mask_size is None:
+            mask_size = tile_size
         crop = tile_size//2
+        mcrop = mask_size//2
 
         tile_outsides = []
         for index in range(colors**4):
@@ -605,16 +620,18 @@ def inpainting_from_boundaries(source: torch.Tensor, colors: int, boundary_kind:
     
         tile_outsides = torch.cat(tile_outsides)
         d = {'dtype': tile_outsides.dtype, 'device': tile_outsides.device}
-        z = torch.zeros(1, tile_size, tile_size, **d)
-        o = torch.ones(1, tile_size, tile_size, **d)
+        z = torch.zeros(1, mask_size, mask_size, **d)
+        o = torch.ones(1, mask_size, mask_size, **d)
         outsides_mask = torch.cat([
             torch.cat([z, z, z], -1),
             torch.cat([z, o, z], -1),
             torch.cat([z, z, z], -1),
         ], -2)
-        outsides_mask = outsides_mask[:, crop:-crop, crop:-crop]
+        outsides_mask = outsides_mask[:, mcrop:-mcrop, mcrop:-mcrop]
     elif boundary_kind == 'dual' and ((source_kind == 'dual' and source.shape[0] == colors**4) or source_kind == 'wang'):
         tile_size = source.shape[-1]
+        if mask_size is None:
+            mask_size = tile_size
         tile_outsides = []
 
         for index in range(colors**4):
@@ -633,9 +650,11 @@ def inpainting_from_boundaries(source: torch.Tensor, colors: int, boundary_kind:
             tile_outsides.append(combined)
    
         tile_outsides = torch.cat(tile_outsides)
-        outsides_mask = diamond_inpaint_mask(tile_size, source)
+        outsides_mask = diamond_inpaint_mask(mask_size, source)
     elif boundary_kind == 'dual' and source_kind == 'dual':
         tile_size = source.shape[-1]
+        if mask_size is None:
+            mask_size = tile_size
         tile_outsides = []
         crop = tile_size//2
 
@@ -668,7 +687,7 @@ def inpainting_from_boundaries(source: torch.Tensor, colors: int, boundary_kind:
             tile_outsides.append(combined)
    
         tile_outsides = torch.cat(tile_outsides)
-        outsides_mask = diamond_inpaint_mask(tile_size, source)
+        outsides_mask = diamond_inpaint_mask(mask_size, source)
     else:
         raise NotImplementedError(f'can not make {boundary_kind} boundaries from {source_kind}')
 

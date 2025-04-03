@@ -56,7 +56,11 @@ def tilize_tiles(image: torch.Tensor, tileset: Tileset):
     b, c, w, h = image.shape
     res = tileset.resolution
     if tileset.kind == 'self' and b == 1:
-        return unpack_tiles(image[0, ...], tileset.colors, tileset.kind, res)    
+        if w == res*2 and h == res*2:
+            # uncropped tiles
+            crop = res//2
+            image = image[:, :, crop:, crop:][:, :, :res, :res]
+        return unpack_tiles(image[0, ...], tileset.colors, tileset.kind, res)
     elif b == 1 and w == tileset.colors**2*res and h == tileset.colors**2*res:
         return unpack_tiles(image[0, ...], tileset.colors, tileset.kind, res)
     else:
@@ -107,7 +111,7 @@ class WangBoundaries:
             outsides_mask,
             new_tileset,
         ]
-        
+
 class DualBoundaries:
     @classmethod
     def INPUT_TYPES(s):
@@ -153,35 +157,42 @@ class LatentDualBoundaries:
                 "tiles": ("LATENT",),
                 "tileset": ("TILESET", {"forceInput": True}),
                 "vae": ("VAE",),
+                "noise_mask": ("BOOLEAN", {"default": False}),
                 "candidates": ("INT", {"default": 1}),
             },
         }
 
-    RETURN_TYPES = ("LATENT", "TILESET")
+    RETURN_TYPES = ("LATENT", "MASK", "TILESET")
     FUNCTION = "generate"
     CATEGORY = "tiles/latent"
 
-    def generate(self, tiles: dict[str, torch.Tensor], tileset: Tileset, vae, candidates: int):
+    def generate(self, tiles: dict[str, torch.Tensor], tileset: Tileset, vae, noise_mask: bool, candidates: int):
         new_tileset = Tileset(
             kind='dual',
             colors=tileset.colors,
             resolution=tileset.resolution,
             candidates=candidates,
         )
+        ltileset = tileset.latent(vae)
         x = tiles['samples']
-        if tileset.kind == 'wang' and x.shape[-1] == tileset.resolution*2:
+        if tileset.kind == 'wang' and x.shape[-1] == ltileset.resolution*2:
             # special case, use the uncropped tiles
-            tile_outsides, outsides_mask = inpainting_from_boundaries(x, new_tileset.colors, new_tileset.kind, 'uncropped_wang')
+            tile_outsides, outsides_mask = inpainting_from_boundaries(x, new_tileset.colors, new_tileset.kind, 'uncropped_wang', mask_size=tileset.resolution)
         else:
-            x = tilize_tiles(x, tileset)
-            tile_outsides, outsides_mask = inpainting_from_boundaries(x, new_tileset.colors, new_tileset.kind, tileset.kind)
+            x = tilize_tiles(x, ltileset)
+            tile_outsides, outsides_mask = inpainting_from_boundaries(x, new_tileset.colors, new_tileset.kind, ltileset.kind, mask_size=tileset.resolution)
         tile_outsides = tile_outsides.tile((candidates, 1, 1, 1))
-        outsides_mask = outsides_mask[:, None, :, :].tile((x.shape[0], x.shape[1], 1, 1))
+        outsides_mask = outsides_mask.tile((tile_outsides.shape[0], 1, 1))
+        if noise_mask:
+            noise_mask_value = outsides_mask[:, None, :, :].tile((1, x.shape[1], 1, 1))
+        else:
+            noise_mask_value = None
         return [
             {
                 'samples': tile_outsides,
-                'noise_mask': outsides_mask,
+                'noise_mask': noise_mask_value,
             },
+            outsides_mask,
             new_tileset,
         ]
 
@@ -217,7 +228,7 @@ class RejectCandidateTiles:
             replace(tileset, candidates=keep),
         ]
 
-    
+
 class TilePacking:
     @classmethod
     def INPUT_TYPES(s):
@@ -359,7 +370,7 @@ class TileImages:
     RETURN_TYPES = ("IMAGE",)
     FUNCTION = "generate"
     CATEGORY = "tiles"
-    
+
     def generate(self, tiles: torch.Tensor, tileset: Tileset):
         tiles = tiles.permute(0, 3, 1, 2)
         tiles = tilize_tiles(tiles, tileset)
@@ -380,7 +391,7 @@ class LatentTileImages:
     RETURN_TYPES = ("LATENT",)
     FUNCTION = "generate"
     CATEGORY = "tiles/latent"
-    
+
     def generate(self, tiles: dict[str, torch.Tensor], tileset: Tileset, vae):
         x = tilize_tiles(tiles['samples'], tileset.latent(vae))
         return [{'samples': x}]
@@ -459,7 +470,7 @@ class RollingKSampler(nodes.KSampler):
 
     def sample(self, model, seed, double_output=True, **kwargs):
         generator = torch.manual_seed(seed+1)
-        
+
         def roll_inputs(func, kwargs: dict):
             x = kwargs['input']
             t = kwargs['timestep']
@@ -479,7 +490,7 @@ class RollingKSampler(nodes.KSampler):
             x = func(x, t, **c)
             x = unslide_wrapping(x, off_w, off_h)
             return x
-        
+
         model = model.clone()
         model.set_model_unet_function_wrapper(roll_inputs)
         x = super().sample(model, seed, **kwargs)[0]['samples']
@@ -487,7 +498,7 @@ class RollingKSampler(nodes.KSampler):
             x = torch.cat([x, x], -1)
             x = torch.cat([x, x], -2)
         return [{'samples': x}]
-    
+
 class RandomSubsetOfBatch:
     @classmethod
     def INPUT_TYPES(s):
@@ -501,6 +512,33 @@ class RandomSubsetOfBatch:
     RETURN_TYPES = ("IMAGE",)
     FUNCTION = "select"
     CATEGORY = "image/batch"
-    
+
     def select(self, image: torch.Tensor, count: int):
         return [image[torch.randint(image.shape[0], [count]), :, :, :]]
+
+class FillMask:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "image": ("IMAGE",),
+                "mask": ("MASK",),
+                "fill": (["white", "black", "alpha"], {"default": "black"}),
+            }
+        }
+
+    RETURN_TYPES = ("IMAGE",)
+    FUNCTION = "fill"
+    CATEGORY = "mask"
+
+    def fill(self, image: torch.Tensor, mask: torch.Tensor, fill: str):
+        mask = mask.unsqueeze(-1)
+        if fill == 'white':
+            return [torch.ones_like(image) * mask + image * (1 - mask)]
+        elif fill == 'black':
+            return [torch.zeros_like(image) * mask + image * (1 - mask)]
+        elif fill == 'alpha':
+            return [torch.cat([image, mask], -1)]
+        else:
+            raise ValueError(f'unknown fill mode {fill}')
+
