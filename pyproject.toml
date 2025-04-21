@@ -21,6 +21,9 @@ dependencies = [
   "tqdm",
 ]
 
+[project.urls]
+Repository = "https://github.com/samsartor/content_aware_tiles"
+
 [project.optional-dependencies]
 jupyter = [
   "jupyterlab~=4.2.4",
