@@ -502,7 +502,7 @@ def main():
                 self.prefix = self.dir.name + '.' # type: ignore
 
     opts = Options(**GenerateTilesArgs(explicit_bool=True).parse_args().as_dict())
-    opts.dir.mkdir(exist_ok=True)
+    opts.dir.mkdir(exist_ok=True, parents=True)
 
     if 'classic_wang' in opts.kinds:
         make_tiling(opts, make_classic_wang_tiles(opts), 'wang', 'classic_wang')

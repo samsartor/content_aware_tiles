@@ -4,8 +4,9 @@ build-backend = "hatchling.build"
 
 [project]
 name = "content_aware_tiles"
-version = "0.1"
-description = "Content aware tile generation"
+version = "0.1.1"
+description = "Generate sets of tiles from images or from prompts"
+license = "Apache-2.0"
 requires-python = "~=3.11.0"
 dependencies = [
   "numpy~=1.26.4",
@@ -73,3 +74,8 @@ packages = ["content_aware_tiles"]
 
 [tool.hatch.build.targets.wheel.force-include]
 "tiling_canvas/dist/tiling_canvas.js" = "content_aware_tiles/tiling_canvas.js"
+
+[tool.comfy]
+PublisherId = "samsartor"
+DisplayName = "Content Aware Tiles"
+Icon = "https://bin.samsartor.com/content_aware_tiles_icon.png"
