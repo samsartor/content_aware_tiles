@@ -17,6 +17,7 @@ dependencies = [
   "accelerate~=0.33.0",
   "typed-argument-parser~=1.10.1",
   "scikit-image~=0.24.0",
+  "tqdm",
 ]
 
 [project.optional-dependencies]
@@ -69,3 +70,6 @@ explicit = true
 
 [tool.hatch.build.targets.wheel]
 packages = ["content_aware_tiles"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"tiling_canvas/dist/tiling_canvas.js" = "content_aware_tiles/tiling_canvas.js"

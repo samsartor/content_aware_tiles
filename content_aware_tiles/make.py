@@ -8,6 +8,7 @@ import torch
 from einops import rearrange
 from torchvision import io
 from torchvision.transforms.functional import resize
+from importlib.resources import files
 
 from .generation import inpainting_from_boundaries, place_tiles, random_cuts, pack_tiles, select_candidates, call_chunked, unpack_tiles, slide_wrapping, unslide_wrapping, diamond_inpaint_mask
 from diffusers.pipelines.auto_pipeline import AutoPipelineForInpainting, AutoPipelineForText2Image
@@ -193,7 +194,7 @@ def make_full_image(opts: Options):
         print(f'🫙 Loading {opts.image_model}')
         pipe = AutoPipelineForText2Image.from_pretrained(opts.image_model, torch_dtype=torch.float16, variant="fp16", use_safetensors=True)
         pipe.to(opts.device)
-        pipe.scheduler = sampler.from_config(pipe.scheduler.config) # type: ignore
+        pipe.scheduler = opts.sampler.from_config(pipe.scheduler.config) # type: ignore
         if opts.rolled_image:
             pipe = rolling_pipe(pipe)
         print(f'📷 Generating input image')
@@ -264,7 +265,7 @@ def make_inpainting_pipe(opts: Options):
     pipe.to(opts.device)
 
     # Because our batch sizes are so large (eg 81 for 3 colors), we sub-batch the unet and vae
-    pipe.scheduler = sampler.from_config(pipe.scheduler.config) # type: ignore
+    pipe.scheduler = opts.sampler.from_config(pipe.scheduler.config) # type: ignore
     pipe.unet.forward = partial(call_chunked, pipe.unet.forward, chunk_size=opts.diffusion_batch_size)
     pipe.vae.decode = partial(call_chunked, pipe.vae.decode, chunk_size=opts.diffusion_batch_size)
     pipe.vae.encode = partial(call_chunked, pipe.vae.encode, chunk_size=opts.diffusion_batch_size)
@@ -290,7 +291,7 @@ def generate_tiles(opts: Options, pipe, scaled_image: torch.Tensor, condition: t
 
 @cache
 def make_self_tiles(opts: Options):
-    path = opts.path('{prefix}self_tiles.jpg')
+    path = opts.path('self_tiles.jpg')
 
     if opts.resume and path.exists():
         print(f'💾 Loading {path}')
@@ -401,7 +402,7 @@ def make_rolled_self(opts: Options):
         self_tiles = resize(self_tiles, [opts.size, opts.size])
         self_tiles = select_candidates(self_tiles, scaled_image.to(opts.device), opts.candidates, 1, opts.rejection_metric).cpu()
 
-        imsave(self_tiles[0, 0], path)
+        imsave(self_tiles[0], path)
 
     return self_tiles
 
@@ -436,7 +437,7 @@ def make_page(opts: Options):
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>{opts.prompt}</title>
-            <script type="module">{(Path(__file__).parent / 'tiling_canvas/dist/tiling_canvas.js').read_text()}</script>
+            <script type="module">{(files("content_aware_tiles") / 'tiling_canvas.js').read_text()}</script>
             {style}
         </head>
         <body>
