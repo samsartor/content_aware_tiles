@@ -237,7 +237,7 @@ def try_tilings(colors, img, size, overlap, attempts, **kwargs):
         
 
 
-if __name__ == '__main__':
+def main():
     import argparse
     parser = argparse.ArgumentParser('classicwang')
     parser.add_argument('input', help='the input image')
@@ -255,3 +255,6 @@ if __name__ == '__main__':
     res, error = try_tilings(args.colors, img, args.size, args.overlap, args.attempts, visulize_edges=args.visulize_edges, visulize_error=args.visulize_error)
     print('ERROR:', error)
     io.imsave(args.output, res, quality=100)
+    
+if __name__ == '__main__':
+    main()

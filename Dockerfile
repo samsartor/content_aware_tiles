@@ -52,7 +52,7 @@ RUN echo "huggingface:\n  base_path: $HOME/data/huggingface\n  checkpoints: hub\
 # Add content_aware_tiles
 COPY --chown=user . $HOME/content_aware_tiles
 RUN cp $HOME/content_aware_tiles/*_workflow.json $HOME/ComfyUI/user/default/workflows/
-RUN pip install -e content_aware_tiles[cli]
+RUN pip install -e content_aware_tiles
 RUN ln -s $HOME/content_aware_tiles $HOME/ComfyUI/custom_nodes/content_aware_tiles
 
 # Persistant data

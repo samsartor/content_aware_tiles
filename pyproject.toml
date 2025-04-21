@@ -1,30 +1,71 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "content_aware_tiles"
 version = "0.1"
+description = "Content aware tile generation"
+requires-python = "~=3.11.0"
 dependencies = [
-  "numpy",
-  "pytorch_fid",
-  "textile-metric",
-  "einops",
-  "torch",
-  "diffusers",
-  "transformers",
-  "accelerate",
+  "numpy~=1.26.4",
+  "pytorch_fid~=0.3.0",
+  "textile-metric~=0.0.10",
+  "einops~=0.8.0",
+  "diffusers~=0.30.0",
+  "transformers~=4.44.0",
+  "accelerate~=0.33.0",
+  "typed-argument-parser~=1.10.1",
+  "scikit-image~=0.24.0",
 ]
-
-[tool.setuptools.packages.find]
-include = ["content_aware_tiles"]
 
 [project.optional-dependencies]
-cli = [
-  "scikit-image",
-  "tqdm",
-  "diffusers",
-  "pyquery",
-  "typed-argument-parser",
-]
 jupyter = [
-  "jupyterlab",
-  "jupytext",
-  "ipython",
+  "jupyterlab~=4.2.4",
+  "jupytext~=1.16.4",
+  "ipython~=8.26.0",
 ]
+cpu = [
+  "torch~=2.4.0",
+  "torchvision",
+]
+cuda = [
+  "torch~=2.4.0",
+  "torchvision",
+]
+
+[project.scripts]
+generate_tiles = "content_aware_tiles.make:main"
+generate_classicwang = "content_aware_tiles.classicwang:main"
+
+[tool.uv]
+conflicts = [
+  [
+    { extra = "cpu" },
+    { extra = "cuda" },
+  ],
+]
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cpu", extra = "cpu" },
+  { index = "pytorch-cuda", extra = "cuda" },
+]
+torchvision = [
+  { index = "pytorch-cpu", extra = "cpu" },
+  { index = "pytorch-cuda", extra = "cuda" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+
+[[tool.uv.index]]
+name = "pytorch-cuda"
+url = "https://download.pytorch.org/whl"
+explicit = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["content_aware_tiles"]

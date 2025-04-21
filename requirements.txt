@@ -1,0 +1,5 @@
+numpy
+diffusers
+pytorch_fid~=0.3.0
+textile-metric~=0.0.10
+einops

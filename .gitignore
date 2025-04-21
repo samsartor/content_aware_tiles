@@ -6,3 +6,4 @@ textile
 tiling_canvas/node_modules
 tiling_canvas/package-lock.json
 data
+out
